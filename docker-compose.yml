@@ -1,0 +1,14 @@
+version: '3.5'
+services:
+  web:
+    build: .
+    volumes:
+      - "./app:/src/app"
+    ports:
+      - "3030:3000"
+    environment:
+      - "TEST=${TEST}"
+networks:
+  default:
+    external:
+      name: mongodb
