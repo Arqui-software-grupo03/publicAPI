@@ -1,15 +1,26 @@
-version: "2"
+# version: "2"
+# services:
+#   app:
+#     container_name: app
+#     restart: always
+#     build: .
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - "./app:/src/app"
+version: '3.5'
 services:
-  app:
-    container_name: app2
-    restart: always
+  web:
     build: .
+    volumes:
+      - "./app:/src/app"
     ports:
-      - "3000:3000"
-    links:
-      - mongo
-  mongo:
-    container_name: mongo2
-    image: mongo
-    ports:
-      - "27017:27017"
+      - "3030:3000"
+
+    # links:
+    #   - mongo
+  # mongo:
+  #   container_name: mongo2
+  #   image: mongo
+  #   ports:
+  #     - "27017:27017"

@@ -1,42 +1,14 @@
-# Koa 2 Restful Boilerplate
 
-## Description
 
-Koa 2 RESTful API using :
+## Step1: 
+- clone the mongodb repo from https://github.com/Arqui-software-grupo03/mongodb.git
+- `cd mongodb`
+- `docker-compose up`
 
-* Koa 2
-* Mongodb + Mongoose
-* Babel
-* Asynchronous Functions (Async/Await)
-
-## Running
-
-Install dependencies
-
-```
-npm install
-```
-
-Start a Local Server
-
-```
-npm start
-```
-
-Run Test
-
-```
-npm test
-```
-
-Building and Running Production Server
-
-```
-npm run prod
-```
-
-**Note : Please make sure your MongoDB is running before using `npm start` or `npm run prod`**
-
-## License
-
-MIT &copy; [Thomas Blanc-Hector](https://github.com/jsnomad)
+## Step 2
+- Open a new terminal
+- go to the users repo 
+- `cd publicAPI`
+- `docker-compose build && docker-compose up`
+- try it:
+        http://localhost:3030/r

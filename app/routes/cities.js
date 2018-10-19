@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+// import 'babel-polyfill';
 import Router from 'koa-router';
 import { baseApi } from '../config';
 import jwt from '../middlewares/jwt';
@@ -28,5 +28,7 @@ router.put('/:id', jwt, CitiesControllers.update);
 // DELETE /api/cities/id
 // This route is protected, call POST /api/authenticate to get the token
 router.delete('/:id', jwt, CitiesControllers.delete);
+
+console.log(router.routes())
 
 export default router;
