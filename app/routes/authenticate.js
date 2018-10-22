@@ -1,13 +1,13 @@
 // import 'babel-polyfill';
 import Router from 'koa-router';
-import { baseApi } from '../config';
+// import { apiVersion } from '../config';
 import authenticate from '../middlewares/authenticate';
 
-const api = 'authenticate';
+const api = 'login';
 
 const router = new Router();
 
-router.prefix(`/${baseApi}/${api}`);
+router.prefix(`/${api}`);
 
 // POST /api/authenticate
 router.post('/', authenticate);
