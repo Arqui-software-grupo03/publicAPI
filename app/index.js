@@ -5,8 +5,6 @@ import mongoose from 'mongoose';
 import helmet from 'koa-helmet';
 import router from './routes/';
 import { port, connexionString } from './config';
-// import jwt from '../middlewares/jwt';
-// import jwt from 'koa-jwt'
 
 
 mongoose.connect(connexionString, { useNewUrlParser: true });
@@ -20,8 +18,6 @@ app
   .use(logger())
   .use(bodyParser())
   .use(helmet());
-
-// app.use(jwt({ secret: 'MyVerySecretKey' }).unless({ path: [ /^\/login/ ] }));
 
 
 app.use(router.routes());

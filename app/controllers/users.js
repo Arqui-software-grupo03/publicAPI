@@ -12,11 +12,6 @@ class UsersControllers {
         const user = new User({username: 'hola21', password: 'chao'})
         await user.save();
 
-        // const user2 = new User({ username: 'hola23', password: 'chao' })
-        // await user2.save();
-
-        // const user2 = await User.find({ username: 'hola2' });
-
         ctx.body = await User.find();
     }
 
