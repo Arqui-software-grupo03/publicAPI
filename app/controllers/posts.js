@@ -1,11 +1,13 @@
 
 class PostsControllers {
+
+
     /**
      * Get all cities
      * @param {ctx} Koa Context
      */
-    async find(ctx) {
-        ctx.body = await City.find();
+    async all(ctx) {
+        ctx.body = {message: 'many posts'};
     }
 
     /**

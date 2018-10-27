@@ -4,7 +4,9 @@ class TopicsControllers {
 
 
 
-
+    async all(ctx) {
+        ctx.body = { message: 'many posts' };
+    }
 
 
     /* eslint-enable no-param-reassign */

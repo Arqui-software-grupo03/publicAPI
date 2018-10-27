@@ -10,7 +10,7 @@ const router = new Router();
 const model = 'topics';
 router.prefix(`/${model}`);
 
-// get all topics
+// list all topics
 router.get('/', TopicsControllers.all);
 
 // create topic

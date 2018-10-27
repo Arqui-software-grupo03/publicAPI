@@ -3,13 +3,13 @@ import Router from 'koa-router';
 // import { apiVersion } from '../config';
 import authenticate from '../middlewares/authenticate';
 
-const api = 'login';
 
 const router = new Router();
 
-router.prefix(`/${api}`);
+// const api = 'login';
+// router.prefix(`/${api}`);
 
-// POST /api/authenticate
-router.post('/', authenticate);
+// login
+router.post('/login', authenticate);
 
 export default router;

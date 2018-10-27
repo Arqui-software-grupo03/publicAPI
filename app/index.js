@@ -1,16 +1,17 @@
 import bodyParser from 'koa-bodyparser';
 import Koa from 'koa';
 import logger from 'koa-logger';
-// import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import helmet from 'koa-helmet';
 import router from './routes/';
 import { port, connexionString } from './config';
+// import jwt from '../middlewares/jwt';
+// import jwt from 'koa-jwt'
 
 
-// import Router from 'koa-router';
-
-// mongoose.connect(connexionString);
-// mongoose.connection.on('error', console.error);
+mongoose.connect(connexionString, { useNewUrlParser: true });
+mongoose.connection.on('error', console.error);
+mongoose.set('useCreateIndex', true);
 
 // Create Koa Application
 const app = new Koa();
@@ -20,18 +21,10 @@ app
   .use(bodyParser())
   .use(helmet());
 
-// const router = new Router();
+// app.use(jwt({ secret: 'MyVerySecretKey' }).unless({ path: [ /^\/login/ ] }));
 
-// router.prefix(`/${baseApi}/${api}`);
-
-// GET /api/hola
-// router.get('/', (ctx, next) => { ctx.body = { hola: 'hola', chao: 'chao' }; });
 
 app.use(router.routes());
-// app.use(router.allowedMethods({
-//   throw: true
-// }));
-// routing(app);
 
 // Start the application
 app.listen(port, () =>

@@ -16,6 +16,10 @@ services:
       - "./app:/src/app"
     ports:
       - "3030:3000"
+networks:
+  default:
+    external:
+      name: mongodb
 
     # links:
     #   - mongo
@@ -24,3 +28,4 @@ services:
   #   image: mongo
   #   ports:
   #     - "27017:27017"
+

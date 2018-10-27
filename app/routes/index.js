@@ -1,9 +1,3 @@
-// import routesLoader from '../utils/routesLoader';
-// import Router from 'koa-router';
-
-
-// const router = new Router();
-
 // function load_routes(router) {
 //   routesLoader(`${__dirname}`).then(files => {
 //     files.forEach(route => {
@@ -16,28 +10,40 @@
 // }
 
 
-// // console.log(router.routes())
 
-// console.log(router.stack.map(i => i.path), 'blablabla');
-
-// load_routes(router);
-
-// export default router;
 
 import Router from 'koa-router';
 import posts from './posts.js';
 import users from './users.js';
+import topics from './topics.js';
+import auth from './authenticate.js'
+
+import jwt from '../middlewares/jwt';
+
 // import cities from './cities.js';
 
 
 const router = new Router();
 
-const routes = [
+
+const protectedRoutes = [
   posts,
   users,
+  topics
 ];
 
-routes.forEach(route => {
+const unprotectedRoutes = [
+  auth
+];
+
+unprotectedRoutes.forEach(route => {
+  router.use(route.routes());
+});
+
+// jwt authetigication
+router.use(jwt);
+
+protectedRoutes.forEach(route => {
   router.use(route.routes());
 });
 

@@ -23,6 +23,12 @@ router.get('/:email', UsersControllers.all);
 // deactivate account
 router.patch('/:email', UsersControllers.all);
 
+// list all followers
+router.get('/:email/followers', UsersControllers.all);
+
+// list all followed
+router.get('/:email/followed', UsersControllers.all);
+
 // follow user
 router.post('/:email/followers', UsersControllers.all);
 

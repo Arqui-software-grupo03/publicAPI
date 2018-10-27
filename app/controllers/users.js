@@ -1,87 +1,26 @@
 
-class PostsControllers {
-    /**
-     * Get all cities
-     * @param {ctx} Koa Context
-     */
+import User from '../models/users.js'
+import mongoose from 'mongoose';
+
+
+class UsersControllers {
+    /* eslint-enable no-param-reassign */
+
     async all(ctx) {
-        ctx.body = {cities: 'all cities'};
-    }
+        mongoose.connection.db.dropCollection('users', function (err, result) {console.log(err, result)});
 
-    /**
-     * Find a city
-     * @param {ctx} Koa Context
-     */
-    async findById(ctx) {
-        try {
-            const city = await City.findById(ctx.params.id);
-            if (!city) {
-                ctx.throw(404);
-            }
-            ctx.body = city;
-        } catch (err) {
-            if (err.name === 'CastError' || err.name === 'NotFoundError') {
-                ctx.throw(404);
-            }
-            ctx.throw(500);
-        }
-    }
+        const user = new User({username: 'hola21', password: 'chao'})
+        await user.save();
 
-    /**
-     * Add a city
-     * @param {ctx} Koa Context
-     */
-    async add(ctx) {
-        try {
-            const city = await new City(ctx.request.body).save();
-            ctx.body = city;
-        } catch (err) {
-            ctx.throw(422);
-        }
-    }
+        // const user2 = new User({ username: 'hola23', password: 'chao' })
+        // await user2.save();
 
-    /**
-     * Update a city
-     * @param {ctx} Koa Context
-     */
-    async update(ctx) {
-        try {
-            const city = await City.findByIdAndUpdate(
-                ctx.params.id,
-                ctx.request.body
-            );
-            if (!city) {
-                ctx.throw(404);
-            }
-            ctx.body = city;
-        } catch (err) {
-            if (err.name === 'CastError' || err.name === 'NotFoundError') {
-                ctx.throw(404);
-            }
-            ctx.throw(500);
-        }
-    }
+        // const user2 = await User.find({ username: 'hola2' });
 
-    /**
-     * Delete a city
-     * @param {ctx} Koa Context
-     */
-    async delete(ctx) {
-        try {
-            const city = await City.findByIdAndRemove(ctx.params.id);
-            if (!city) {
-                ctx.throw(404);
-            }
-            ctx.body = city;
-        } catch (err) {
-            if (err.name === 'CastError' || err.name === 'NotFoundError') {
-                ctx.throw(404);
-            }
-            ctx.throw(500);
-        }
+        ctx.body = await User.find();
     }
 
     /* eslint-enable no-param-reassign */
 }
 
-export default new PostsControllers();
+export default new UsersControllers();
