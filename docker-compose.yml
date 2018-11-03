@@ -15,7 +15,7 @@ services:
     volumes:
       - "./app:/src/app"
     ports:
-      - "3030:3000"
+      - "8003:3000"
 networks:
   default:
     external:
