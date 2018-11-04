@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 import axios from 'axios';
 
-const dir = 'http://loaclhost:8000/users';
+// const dir = 'http://loaclhost:8000/users';
 
 
 class UsersControllers {
@@ -24,7 +24,6 @@ class UsersControllers {
     }
 
     async create(ctx) {
-        // mongoose.connection.db.dropCollection('users', function (err, result) { console.log(err, result) });
         try {
             const user = new User(ctx.request.body);
             await user.save();
@@ -100,7 +99,6 @@ class UsersControllers {
     async unfollow(ctx) {
         try {
             // const user = await User.find({ _id: ctx.body.id });
-            console.log('hoola', ctx.params.id);
             await User.updateOne(
                 { _id: ctx.params.id }, 
                 { $pullAll: { followers: [ ctx.session.userId ] } }
