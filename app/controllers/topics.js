@@ -12,7 +12,7 @@ class TopicsControllers {
     }
     
     async delete(ctx) { // not working
-        const ans = await axios.delete(`${dir}/${ctx.params.id}`);
+        const ans = await axios.delete(`${dir}/${ctx.params.id}/`);
         ctx.body = ans.data;
     }
     
@@ -32,7 +32,7 @@ class TopicsControllers {
     }
 
     async deleteCategorization(ctx) { // tampoco. probklema de la apitopics?
-        const ans = await axios.delete(`${dir}/${ctx.params.id}/post_ids/${ctx.params.postId}`);
+        const ans = await axios.delete(`${dir}/${ctx.params.id}/post_ids/${ctx.params.postId}/`);
         ctx.body = ans.data;
     }
 
@@ -47,7 +47,7 @@ class TopicsControllers {
     }
 
     async unsubscribe(ctx) {
-        const ans = await axios.delete(`${dir}/${ctx.params.id}/subscribers/${ctx.params.userId}`);
+        const ans = await axios.delete(`${dir}/${ctx.params.id}/subscribers/${ctx.params.userId}/`);
         ctx.body = ans.data;
     }
 
