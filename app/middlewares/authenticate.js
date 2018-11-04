@@ -13,6 +13,7 @@ export default async function(ctx, next) {
   }
 
   if (ctx.request.body.password === user.password) {
+    ctx.session.userId = user._id
     ctx.body = {
       token: jwt.sign({
         data: user.username,

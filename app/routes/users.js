@@ -4,6 +4,7 @@ import UsersControllers from '../controllers/users';
 
 
 
+
 const model = 'users';
 
 
@@ -17,14 +18,17 @@ router.get('/', UsersControllers.all);
 // update user
 router.patch('/:id', UsersControllers.update);
 
-// create user
-router.post('/', UsersControllers.create);
+
+
+// get current user
+router.get('/current_user', UsersControllers.currentUser);
 
 // get user
 router.get('/:id', UsersControllers.show);
 
 // deactivate account
 router.delete('/:id', UsersControllers.delete);
+
 
 // // list all followers
 // router.get('/:id/followers', UsersControllers.followers);

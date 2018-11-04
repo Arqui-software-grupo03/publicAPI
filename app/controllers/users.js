@@ -9,6 +9,7 @@ const dir = 'http://loaclhost:8000/users';
 
 class UsersControllers {
     /* eslint-enable no-param-reassign */
+    
 
     async all(ctx) {
         // mongoose.connection.db.dropCollection('users', function (err, result) {console.log(err, result)});
@@ -23,10 +24,11 @@ class UsersControllers {
     }
 
     async create(ctx) {
+        // mongoose.connection.db.dropCollection('users', function (err, result) { console.log(err, result) });
         try {
             const user = new User(ctx.request.body);
             await user.save();
-            ctx.body = user;
+            ctx.body = await User.findOne({ _id: user._id });
             // const ans = await axios.post(`${dir}`, ctx.request.body);
         } catch (e) {
             ctx.body = e;
@@ -47,7 +49,7 @@ class UsersControllers {
 
     async show(ctx) {
         try {
-            const user = await User.find({ _id: ctx.params.id });
+            const user = await User.findOne({ _id: ctx.params.id });
             ctx.body = user;
         } catch (e) {
             ctx.body = e;
@@ -58,6 +60,15 @@ class UsersControllers {
         try {
             await User.remove({ _id: ctx.params.id });
             ctx.body = { message: 'success' };
+        } catch (e) {
+            ctx.body = e;
+        }
+    }
+
+    async currentUser(ctx) {
+        try {
+            const _id = ctx.session.userId;
+            ctx.body = await User.findOne({ _id });
         } catch (e) {
             ctx.body = e;
         }
@@ -78,7 +89,7 @@ class UsersControllers {
             // const user = await User.find({ _id: ctx.body.id });
             await User.updateOne(
                 { _id: ctx.params.id },
-                { $push: { followers: 2 } } // user harcoded
+                { $push: { followers: ctx.session.userId } } // user harcoded
             );
             ctx.body = { message: 'success' };
         } catch (e) {
@@ -92,7 +103,7 @@ class UsersControllers {
             console.log('hoola', ctx.params.id);
             await User.updateOne(
                 { _id: ctx.params.id }, 
-                { $pullAll: { followers: [ 2 ] } }
+                { $pullAll: { followers: [ ctx.session.userId ] } }
             );
             ctx.body = { message: 'success' };
         } catch (e) {

@@ -27,12 +27,6 @@ export const UserSchema = new Schema(
         followers: { 
             type: [] 
         },
-        posts: {
-            type: []
-        },
-        topics: {
-            type: []
-        }
     },
     { collection: 'users' },
 );

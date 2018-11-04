@@ -2,7 +2,7 @@ import Router from 'koa-router';
 import posts from './posts.js';
 import users from './users.js';
 import topics from './topics.js';
-import auth from './authenticate.js'
+import auth from './authentication.js'
 
 import jwt from '../middlewares/jwt';
 
@@ -26,7 +26,7 @@ unprotectedRoutes.forEach(route => {
 });
 
 // jwt authetigication
-// router.use(jwt);
+router.use(jwt);
 
 protectedRoutes.forEach(route => {
   router.use(route.routes());
