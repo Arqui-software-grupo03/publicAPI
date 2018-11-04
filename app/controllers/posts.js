@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-const dir = 'http://localhost:8002/posts';
+const dir = 'http://appposts:8100/posts';
 
 class PostsControllers {
-
-
 
     async all(ctx) {
         const ans = await axios.get(`${dir}`);
@@ -25,13 +23,13 @@ class PostsControllers {
 
 
     async update(ctx) {
-        const ans = await axios.patch(`${dir}/`, ctx.request.body);
+        const ans = await axios.patch(`${dir}/${ctx.params.id}/`, ctx.request.body);
         ctx.body = ans.data;
     }
 
 
     async delete(ctx) { 
-        const ans = await axios.delete(`${dir}/${ctx.params.id}`);
+        const ans = await axios.delete(`${dir}/${ctx.params.id}/`);
         ctx.body = ans.data;
     }
 
@@ -41,17 +39,17 @@ class PostsControllers {
     }
 
     async addAnswer(ctx) {
-        const ans = await axios.post(`${dir}/${ctx.params.id}/answers`, ctx.request.body);
+        const ans = await axios.post(`${dir}/${ctx.params.id}/answers/`, ctx.request.body);
         ctx.body = ans.data;
     }
 
     async updateAnswer(ctx) {
-        const ans = await axios.patch(`${dir}/${ctx.params.id}/answers/${ctx.params.answerId}`, ctx.request.body);
+        const ans = await axios.patch(`${dir}/${ctx.params.id}/answers/${ctx.params.answerId}/`, ctx.request.body);
         ctx.body = ans.data;
     }
 
     async deleteAnswer(ctx) {
-        const ans = await axios.delete(`${dir}/${ctx.params.id}/answers/${ctx.params.answerId}`);
+        const ans = await axios.delete(`${dir}/${ctx.params.id}/answers/${ctx.params.answerId}/`);
         ctx.body = ans.data;
     }
 
