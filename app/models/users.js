@@ -3,37 +3,36 @@ import mongoose, { Schema } from 'mongoose';
 
 export const UserSchema = new Schema(
     {
-        // email: {
-        //     type: String,
-        //     lowercase: true,
-        //     trim: true,
-        //     index: true,
-        //     unique: true,
-        //     // required: true,
-        // },
-        username: {
+        email: {
             type: String,
             lowercase: true,
-            trim: true,
-            index: true,
-            unique: true,
-            required: true,
+            required: [ true, "can't be blank" ], 
+            match: [ /\S+@\S+\.\S+/, 'is invalid' ], 
+            index: true
+        },
+        username: { 
+            type: String, 
+            lowercase: true, 
+            required: [ true, "can't be blank" ], 
+            match: [ /^[a-zA-Z0-9]+$/, 'is invalid' ], 
+            index: true ,
+            unique: true
         },
         password: {
             type: String,
             required: true,
             bcrypt: true,
-            select: false,
+            select: false
         },
-        // name: {
-        //     type: String,
-        //     trim: true,
-        //     // required: true,
-        // },
-        // admin: {
-        //     type: Boolean,
-        //     default: false,
-        // },
+        followers: { 
+            type: [] 
+        },
+        posts: {
+            type: []
+        },
+        topics: {
+            type: []
+        }
     },
     { collection: 'users' },
 );

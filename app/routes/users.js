@@ -14,25 +14,28 @@ router.prefix(`/${model}`);
 // get all users
 router.get('/', UsersControllers.all);
 
+// update user
+router.patch('/:id', UsersControllers.update);
+
 // create user
-router.post('/', UsersControllers.all);
+router.post('/', UsersControllers.create);
 
 // get user
-router.get('/:email', UsersControllers.all);
+router.get('/:id', UsersControllers.show);
 
 // deactivate account
-router.patch('/:email', UsersControllers.all);
+router.delete('/:id', UsersControllers.delete);
 
-// list all followers
-router.get('/:email/followers', UsersControllers.all);
+// // list all followers
+// router.get('/:id/followers', UsersControllers.followers);
 
-// list all followed
-router.get('/:email/followed', UsersControllers.all);
+// // list all followed
+// router.get('/:id/followed', UsersControllers.followed);
 
 // follow user
-router.post('/:email/followers', UsersControllers.all);
+router.post('/:id/followers', UsersControllers.follow);
 
 // unfollow user
-router.delete('/:email/followers', UsersControllers.all);
+router.delete('/:id/followers', UsersControllers.unfollow);
 
 export default router;

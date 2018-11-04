@@ -26,7 +26,7 @@ unprotectedRoutes.forEach(route => {
 });
 
 // jwt authetigication
-router.use(jwt);
+// router.use(jwt);
 
 protectedRoutes.forEach(route => {
   router.use(route.routes());
