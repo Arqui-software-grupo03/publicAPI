@@ -27,7 +27,6 @@ class TopicsControllers {
     }
     
     async categorize(ctx) {
-        console.log('ahahah', ans);
         const ans = await axios.post(`${dir}/${ctx.params.id}/post_ids/`, ctx.request.body);
         ctx.body = ans.data;
     }

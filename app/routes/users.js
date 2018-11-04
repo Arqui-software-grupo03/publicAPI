@@ -10,24 +10,22 @@ const model = 'users';
 
 const router = new Router();
 
-router.prefix(`/${model}`);
+// router.prefix(`/${model}`);
 
 // get all users
-router.get('/', UsersControllers.all);
+router.get('/users/', UsersControllers.all);
 
 // update user
-router.patch('/:id', UsersControllers.update);
+router.patch('/users/:id', UsersControllers.update);
 
 
 
-// get current user
-router.get('/current_user', UsersControllers.currentUser);
 
 // get user
-router.get('/:id', UsersControllers.show);
+router.get('/users/:id', UsersControllers.show);
 
 // deactivate account
-router.delete('/:id', UsersControllers.delete);
+router.delete('/users/:id', UsersControllers.delete);
 
 
 // // list all followers
@@ -37,9 +35,12 @@ router.delete('/:id', UsersControllers.delete);
 // router.get('/:id/followed', UsersControllers.followed);
 
 // follow user
-router.post('/:id/followers', UsersControllers.follow);
+router.post('/users/:id/followers', UsersControllers.follow);
 
 // unfollow user
-router.delete('/:id/followers', UsersControllers.unfollow);
+router.delete('/users/:id/followers', UsersControllers.unfollow);
+
+// get current user
+router.get('/user', UsersControllers.currentUser);
 
 export default router;
