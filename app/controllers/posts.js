@@ -1,86 +1,58 @@
+import axios from 'axios';
+
+const dir = 'http://localhost:8002/posts';
 
 class PostsControllers {
 
 
-    /**
-     * Get all cities
-     * @param {ctx} Koa Context
-     */
+
     async all(ctx) {
-        ctx.body = {message: 'many posts'};
+        const ans = await axios.get(`${dir}`);
+        ctx.body = ans.data;
     }
 
-    /**
-     * Find a city
-     * @param {ctx} Koa Context
-     */
+
     async findById(ctx) {
-        try {
-            const city = await City.findById(ctx.params.id);
-            if (!city) {
-                ctx.throw(404);
-            }
-            ctx.body = city;
-        } catch (err) {
-            if (err.name === 'CastError' || err.name === 'NotFoundError') {
-                ctx.throw(404);
-            }
-            ctx.throw(500);
-        }
+        const ans = await axios.get(`${dir}/${ctx.params.id}`);
+        ctx.body = ans.data;
     }
 
-    /**
-     * Add a city
-     * @param {ctx} Koa Context
-     */
+
     async add(ctx) {
-        try {
-            const city = await new City(ctx.request.body).save();
-            ctx.body = city;
-        } catch (err) {
-            ctx.throw(422);
-        }
+        const ans = await axios.post(`${dir}/`, ctx.request.body);
+        ctx.body = ans.data;
     }
 
-    /**
-     * Update a city
-     * @param {ctx} Koa Context
-     */
+
     async update(ctx) {
-        try {
-            const city = await City.findByIdAndUpdate(
-                ctx.params.id,
-                ctx.request.body
-            );
-            if (!city) {
-                ctx.throw(404);
-            }
-            ctx.body = city;
-        } catch (err) {
-            if (err.name === 'CastError' || err.name === 'NotFoundError') {
-                ctx.throw(404);
-            }
-            ctx.throw(500);
-        }
+        const ans = await axios.patch(`${dir}/`, ctx.request.body);
+        ctx.body = ans.data;
     }
 
-    /**
-     * Delete a city
-     * @param {ctx} Koa Context
-     */
-    async delete(ctx) {
-        try {
-            const city = await City.findByIdAndRemove(ctx.params.id);
-            if (!city) {
-                ctx.throw(404);
-            }
-            ctx.body = city;
-        } catch (err) {
-            if (err.name === 'CastError' || err.name === 'NotFoundError') {
-                ctx.throw(404);
-            }
-            ctx.throw(500);
-        }
+
+    async delete(ctx) { 
+        const ans = await axios.delete(`${dir}/${ctx.params.id}`);
+        ctx.body = ans.data;
+    }
+
+    async allAnswers(ctx) {
+        const ans = await axios.get(`${dir}/${ctx.params.id}/answers`);
+        ctx.body = ans.data;
+    }
+
+    async addAnswer(ctx) {
+        const ans = await axios.post(`${dir}/${ctx.params.id}/answers`, ctx.request.body);
+        ctx.body = ans.data;
+    }
+
+    async updateAnswer(ctx) {
+        const ans = await axios.patch(`${dir}/${ctx.params.id}/answers/${ctx.params.answerId}`, ctx.request.body);
+        ctx.body = ans.data;
+    }
+
+    async deleteAnswer(ctx) {
+        const ans = await axios.delete(`${dir}/${ctx.params.id}/answers/${ctx.params.answerId}`);
+        ctx.body = ans.data;
     }
 
     /* eslint-enable no-param-reassign */

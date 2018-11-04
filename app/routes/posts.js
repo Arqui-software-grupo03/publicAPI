@@ -14,28 +14,28 @@ router.prefix(`/${model}`);
 router.get('/', PostsControllers.all);
 
 // create posts
-router.post('/', PostsControllers.all);
+router.post('/', PostsControllers.add);
 
 // edit post
-router.patch('/:id', PostsControllers.all);
+router.patch('/:id', PostsControllers.update);
 
 // get post
-router.get('/:id', PostsControllers.all);
+router.get('/:id', PostsControllers.findById);
 
 // delete post
-router.delete('/:id', PostsControllers.all);
+router.delete('/:id', PostsControllers.delete);
 
 // list all answers
-router.get('/:id/answers', PostsControllers.all);
+router.get('/:id/answers', PostsControllers.allAnswers);
 
 // create answer
-router.post('/:id/answers', PostsControllers.all);
+router.post('/:id/answers', PostsControllers.addAnswer);
 
 // edit answer
-router.patch('/:id/answers/:answerId', PostsControllers.all);
+router.patch('/:id/answers/:answerId', PostsControllers.updateAnswer);
 
 // delete answer
-router.delete('/:id/answers/:answerId', PostsControllers.all);
+router.delete('/:id/answers/:answerId', PostsControllers.deleteAnswer);
 
 
 
