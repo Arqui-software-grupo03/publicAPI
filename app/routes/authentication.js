@@ -10,7 +10,7 @@ const router = new Router();
 router.post('/login', authenticate);
 
 // sign up
-router.post('/sign_in', UsersControllers.create);
+router.post('/users', UsersControllers.create);
 
 
 export default router;
