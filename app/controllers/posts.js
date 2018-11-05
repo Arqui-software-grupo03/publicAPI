@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const dir = 'http://arquitran_posts:8100/posts';
+const dir = 'http://posts:8100/posts';
 
 class PostsControllers {
 
