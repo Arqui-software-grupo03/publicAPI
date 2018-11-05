@@ -10,6 +10,7 @@ import jwt from '../middlewares/jwt';
 
 const router = new Router();
 
+router.prefix('/api');
 
 const protectedRoutes = [
   posts,
