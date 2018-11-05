@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const dir = 'http://apptopics:8080/topics';
+const dir = 'http://arquitran_topics:8080/topics';
 
 
 class TopicsControllers {
