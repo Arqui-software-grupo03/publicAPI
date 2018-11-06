@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/users.js'
 
 export default async function(ctx, next) {
-  const user = await User.findOne({ username: ctx.request.body.username }).select('+password');
+  const user = await User.findOne({ email: ctx.request.body.email }).select('+password');
   console.log(user)
   if (user == null) {
     ctx.status = 401;
@@ -16,7 +16,7 @@ export default async function(ctx, next) {
     ctx.session.userId = user._id
     ctx.body = {
       token: jwt.sign({
-        data: user.username,
+        data: user.email,
       }, 'MyVerySecretKey')
     }
     return ctx;
