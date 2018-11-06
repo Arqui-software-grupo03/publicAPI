@@ -43,6 +43,6 @@ router.delete('/users/:id/followers', UsersControllers.unfollow);
 // get current user
 router.get('/user', UsersControllers.currentUser);
 // get user by email
-router.post('/login', UsersControllers.currentUserByEmail);
+router.post('/user', UsersControllers.currentUserByEmail);
 
 export default router;
