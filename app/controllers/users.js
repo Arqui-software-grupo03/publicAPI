@@ -72,6 +72,14 @@ class UsersControllers {
             ctx.body = e;
         }
     }
+    async currentUserByEmail(ctx) {
+        try {
+            const email = ctx.request.body.email;
+            ctx.body = await User.find({ email: email });
+        } catch (e) {
+            ctx.body = e;
+        }
+    }
 
     // async followers(ctx) {
     //     const ans = await axios.get(`${dir}/${ctx.params.email}/followers`);
