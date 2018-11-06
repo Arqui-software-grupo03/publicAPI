@@ -6,6 +6,7 @@ import helmet from 'koa-helmet';
 import router from './routes/';
 import session from 'koa-session';
 import { port, connexionString } from './config';
+const cors = require('@koa/cors');
 
 
 mongoose.connect(connexionString, { useNewUrlParser: true });
@@ -16,6 +17,9 @@ mongoose.set('useCreateIndex', true);
 
 // Create Koa Application
 const app = new Koa();
+app.use(cors({
+  origin: '*'
+}));
 
 app.keys = [ 'most secret key ever' ];
 

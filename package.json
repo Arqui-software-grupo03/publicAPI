@@ -36,6 +36,7 @@
     "mocha": "./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill --exit"
   },
   "dependencies": {
+    "@koa/cors": "^2.2.2",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.5.0",
     "glob": "^7.1.2",
