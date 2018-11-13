@@ -10,34 +10,34 @@ class TopicsControllers {
         const ans = await axios.post(`${dir}/`, ctx.request.body);
         ctx.body = ans.data;
     }
-    
+
     async delete(ctx) { // not working
         const ans = await axios.delete(`${dir}/${ctx.params.id}/`);
         ctx.body = ans.data;
     }
-    
+
     async show(ctx) {
         const ans = await axios.get(`${dir}/${ctx.params.id}`);
         ctx.body = ans.data;
     }
-    
+
     async all(ctx) {
         const ans = await axios.get(`${dir}`);
         ctx.body = ans.data;
     }
-    
+
     async categorize(ctx) {
-        const ans = await axios.post(`${dir}/${ctx.params.id}/post_ids/`, ctx.request.body);
+        const ans = await axios.post(`${dir}/${ctx.params.id}/posts/`, ctx.request.body);
         ctx.body = ans.data;
     }
 
     async deleteCategorization(ctx) { // tampoco. probklema de la apitopics?
-        const ans = await axios.delete(`${dir}/${ctx.params.id}/post_ids/${ctx.params.postId}/`);
+        const ans = await axios.delete(`${dir}/${ctx.params.id}/posts/${ctx.params.postId}/`);
         ctx.body = ans.data;
     }
 
     async listPosts(ctx) {
-        const ans = await axios.get(`${dir}/${ctx.params.id}/post_ids`);
+        const ans = await axios.get(`${dir}/${ctx.params.id}/posts`);
         ctx.body = ans.data;
     }
 

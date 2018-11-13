@@ -30,13 +30,13 @@ router.post('/:id/subscribers', TopicsControllers.subscribe);
 router.delete('/:id/subscribers/:userId', TopicsControllers.unsubscribe);
 
 // add post to topic
-router.post('/:id/post_ids', TopicsControllers.categorize);
+router.post('/:id/posts', TopicsControllers.categorize);
 
 // remove post from topic
-router.delete('/:id/post_ids/:postId', TopicsControllers.deleteCategorization);
+router.delete('/:id/posts/:postId', TopicsControllers.deleteCategorization);
 
 // list all posts of a topic
-router.get('/:id/post_ids', TopicsControllers.listPosts);
+router.get('/:id/posts', TopicsControllers.listPosts);
 
 
 export default router;
