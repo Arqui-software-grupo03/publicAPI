@@ -12,7 +12,7 @@ export default async function(ctx, next) {
     return ctx;
   }
   if (ctx.request.body.password === user.password) {
-    ctx.session.userId = user._id
+    ctx.session.userId = user.id
     ctx.body = {
       token: jwt.sign({
         data: user.email,

@@ -1,8 +1,20 @@
 import mongoose, { Schema } from 'mongoose';
 
+// var mongoose = require('mongoose'),
+import Id from '../models/ids.js'
+// IdSchema = mongoose.model('Ids').schema
+
+    // Role = require('./role.js'),
+
 
 export const UserSchema = new Schema(
     {
+        id: {
+            type: Number,
+            index: true,
+            unique: true
+
+        },
         email: {
             type: String,
             lowercase: true,
@@ -30,5 +42,18 @@ export const UserSchema = new Schema(
     },
     { collection: 'users' },
 );
+
+UserSchema.pre('save', async function (next) {
+
+    // Only increment when the document is new
+    if (this.isNew) {
+        const idObject = await Id.findOne();
+        const userId = idObject.userId;
+        this.id = userId;
+        await Id.updateOne({ userId }, { $set: { userId: userId + 1 }} );
+    } 
+    next();
+    
+});
 
 export default mongoose.model('User', UserSchema); // export model for use

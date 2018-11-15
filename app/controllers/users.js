@@ -1,8 +1,10 @@
 
 import User from '../models/users.js'
-import mongoose from 'mongoose';
+import Id from '../models/ids'
 
-import axios from 'axios';
+// import mongoose from 'mongoose';
+
+// import axios from 'axios';
 
 // const dir = 'http://loaclhost:8000/users';
 
@@ -16,7 +18,8 @@ class UsersControllers {
 
         // const user = new User({username: 'hola21', password: 'chao'})
         // await user.save();
-
+        // await User.remove({});
+        // await Id.remove({});
         ctx.body = await User.find();
 
         // const ans = await axios.get(`${dir}`);
@@ -27,7 +30,7 @@ class UsersControllers {
         try {
             const user = new User(ctx.request.body);
             await user.save();
-            ctx.body = await User.findOne({ _id: user._id });
+            ctx.body = await User.findOne({ id: user.id });
             // const ans = await axios.post(`${dir}`, ctx.request.body);
         } catch (e) {
             ctx.body = e;
@@ -36,11 +39,18 @@ class UsersControllers {
 
     async update(ctx) {
         try {
-            const user = await User.findOne({ _id: ctx.params.id }).select('password username email').exec();
-            user.username = ctx.request.body.username || user.username;
-            user.email = ctx.request.body.email || user.email;
-            user.password = ctx.request.body.password || user.password;
-            ctx.body = await User.findOne({ _id: ctx.params.id });
+            const allowed = ['username', 'email', 'password'];
+            const body = {};
+
+            allowed.forEach(key => {
+                if (ctx.request.body[key]) {
+                    body[ key ] = ctx.request.body[ key ];
+                }
+            });
+
+            await User.update({ id: ctx.params.id }, { $set: body });
+            // const user = await User.findOne({ id: ctx.params.id }).select('password username email').exec();
+            ctx.body = await User.findOne({ id: ctx.params.id });
         } catch (e) {
             ctx.body = e;
         }
@@ -48,7 +58,7 @@ class UsersControllers {
 
     async show(ctx) {
         try {
-            const user = await User.findOne({ _id: ctx.params.id });
+            const user = await User.findOne({ id: ctx.params.id });
             ctx.body = user;
         } catch (e) {
             ctx.body = e;
@@ -57,7 +67,7 @@ class UsersControllers {
 
     async delete(ctx) {
         try {
-            await User.remove({ _id: ctx.params.id });
+            await User.remove({ id: ctx.params.id });
             ctx.body = { message: 'success' };
         } catch (e) {
             ctx.body = e;
@@ -66,8 +76,8 @@ class UsersControllers {
 
     async currentUser(ctx) {
         try {
-            const _id = ctx.session.userId;
-            ctx.body = await User.findOne({ _id });
+            const id = ctx.session.userId;
+            ctx.body = await User.findOne({ id });
         } catch (e) {
             ctx.body = e;
         }
@@ -93,10 +103,10 @@ class UsersControllers {
 
     async follow(ctx) {
         try {
-            // const user = await User.find({ _id: ctx.body.id });
+            // const user = await User.find({ id: ctx.body.id });
             await User.updateOne(
-                { _id: ctx.params.id },
-                { $push: { followers: ctx.session.userId } } // user harcoded
+                { id: ctx.params.id },
+                { $push: { followers: ctx.session.userId } } 
             );
             ctx.body = { message: 'success' };
         } catch (e) {
@@ -106,9 +116,9 @@ class UsersControllers {
 
     async unfollow(ctx) {
         try {
-            // const user = await User.find({ _id: ctx.body.id });
+            // const user = await User.find({ id: ctx.body.id });
             await User.updateOne(
-                { _id: ctx.params.id }, 
+                { id: ctx.params.id }, 
                 { $pullAll: { followers: [ ctx.session.userId ] } }
             );
             ctx.body = { message: 'success' };
