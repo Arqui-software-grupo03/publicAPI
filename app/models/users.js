@@ -13,7 +13,6 @@ export const UserSchema = new Schema(
             type: Number,
             index: true,
             unique: true
-
         },
         email: {
             type: String,
@@ -38,13 +37,13 @@ export const UserSchema = new Schema(
         },
         followers: { 
             type: [] 
-        },
+        }
     },
     { collection: 'users' },
 );
 
-UserSchema.pre('save', async function (next) {
 
+UserSchema.pre('save', async function (next) {
     // Only increment when the document is new
     if (this.isNew) {
         const idObject = await Id.findOne();

@@ -4,7 +4,7 @@ import logger from 'koa-logger';
 import mongoose from 'mongoose';
 import helmet from 'koa-helmet';
 import router from './routes/';
-import session from 'koa-session';
+// import session from 'koa-session';
 import { port, connexionString } from './config';
 import Id from './models/ids'
 const cors = require('@koa/cors');
@@ -38,9 +38,9 @@ app
   .use(logger())
   .use(bodyParser())
   .use(helmet())
-  .use(session({
-    maxAge: 14 * 24 * 60 * 60 * 1000, // 2 weeks
-  }, app));
+  // .use(session({
+  //   maxAge: 14 * 24 * 60 * 60 * 1000, // 2 weeks
+  // }, app));
 
 
 app.use(router.routes());

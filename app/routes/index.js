@@ -4,7 +4,7 @@ import users from './users.js';
 import topics from './topics.js';
 import auth from './authentication.js'
 
-import jwt from '../middlewares/jwt';
+import {check, setUser} from '../middlewares/jwt';
 
 
 
@@ -27,7 +27,8 @@ unprotectedRoutes.forEach(route => {
 });
 
 // jwt authetigication
-router.use(jwt);
+router.use(check);
+router.use(setUser);
 
 protectedRoutes.forEach(route => {
   router.use(route.routes());

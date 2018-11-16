@@ -76,7 +76,8 @@ class UsersControllers {
 
     async currentUser(ctx) {
         try {
-            const id = ctx.session.userId;
+            // const id = ctx.session.userId;
+            const id = ctx.userId;
             ctx.body = await User.findOne({ id });
         } catch (e) {
             ctx.body = e;
