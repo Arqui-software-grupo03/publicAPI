@@ -39,6 +39,10 @@ export const UserSchema = new Schema(
         followers: { 
             type: [] 
         },
+        fcmTokens: {
+            type: [],
+            required: false
+        }
     },
     { collection: 'users' },
 );
