@@ -39,6 +39,7 @@
     "@koa/cors": "^2.2.2",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.5.0",
+    "firebase-admin": "^6.1.0",
     "glob": "^7.1.2",
     "jsonwebtoken": "^8.1.1",
     "koa": "^2.4.1",
