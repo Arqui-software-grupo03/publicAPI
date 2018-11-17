@@ -1,4 +1,4 @@
-
+import jwt from 'jsonwebtoken';
 import User from '../models/users.js'
 import Id from '../models/ids'
 
@@ -76,8 +76,17 @@ class UsersControllers {
 
     async currentUser(ctx) {
         try {
-            const id = ctx.session.userId;
-            ctx.body = await User.findOne({ id });
+            // const id = ctx.session.userId;
+            const token = ctx.request.header.authorization.replace(/^Bearer\s/, '');;
+            try {
+                const decoded = jwt.verify(token, 'MyVerySecretKey');
+                const email = decoded.data;
+                const user = await User.findOne({email});
+                ctx.body = user;
+              } catch(err) {
+                // err
+                console.log(err);
+              }
         } catch (e) {
             ctx.body = e;
         }
