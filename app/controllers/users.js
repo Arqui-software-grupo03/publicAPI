@@ -39,16 +39,15 @@ class UsersControllers {
 
     async update(ctx) {
         try {
-            const allowed = ['username', 'email', 'password'];
+            const allowed = ['username', 'email', 'password', 'fcmTokens'];
             const body = {};
-
             allowed.forEach(key => {
                 if (ctx.request.body[key]) {
                     body[ key ] = ctx.request.body[ key ];
                 }
             });
 
-            await User.update({ id: ctx.params.id }, { $set: body });
+            await User.updateOne({ id: ctx.params.id }, { $set: body });
             // const user = await User.findOne({ id: ctx.params.id }).select('password username email').exec();
             ctx.body = await User.findOne({ id: ctx.params.id });
         } catch (e) {
