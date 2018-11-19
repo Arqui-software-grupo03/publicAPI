@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { updateRealTimeDatabase } from '../utils/firebase-cloud-messaging';
-import { UserSchema } from '../models/users';
+import users, { UserSchema } from '../models/users';
 
-const dir = 'http://topics:8080/topics';
+// const dir = 'http://topics:8080/topics';
+const dir = 'http://172.28.0.2:8080/topics';
 
 class TopicsControllers {
     /* eslint-disable no-param-reassign */
@@ -12,7 +13,8 @@ class TopicsControllers {
             dict =>  dict.title === ctx.request.body.title && dict.description === ctx.request.body.description
         ).length > 0);
         if (!ifTopicExists) {
-            const userEmail = UserSchema.decryptToken(ctx.request.header.authorization.replace(/^Bearer\s/, ''));
+            const userId = UserSchema.decryptToken(ctx.request.header.authorization.replace(/^Bearer\s/, '')).id;
+            const userEmail = await users.findOne({id: userId}).then(user => user.email);
             try {
                 const ans = await axios.post(`${dir}/`, ctx.request.body);
                 try {
@@ -63,8 +65,13 @@ class TopicsControllers {
     }
 
     async subscribe(ctx) {
-        const ans = await axios.post(`${dir}/${ctx.params.id}/subscribers/`, ctx.request.body);
-        ctx.body = ans.data;
+        try {
+            const ans = await axios.post(`${dir}/${ctx.params.id}/subscribers/`, ctx.request.body);
+            console.log(ans.data);
+            ctx.body = ans.data;
+        } catch(err) {
+            console.log(err);
+        }
     }
 
     async unsubscribe(ctx) {

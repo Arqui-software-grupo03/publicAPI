@@ -79,8 +79,8 @@ class UsersControllers {
             const token = ctx.request.header.authorization.replace(/^Bearer\s/, '');;
             try {
                 const decoded = jwt.verify(token, 'MyVerySecretKey');
-                const email = decoded.data;
-                const user = await User.findOne({email});
+                const userId = decoded.id;
+                const user = await User.findOne({id: userId});
                 ctx.body = user;
               } catch(err) {
                 // err

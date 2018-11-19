@@ -61,7 +61,7 @@ UserSchema.pre('save', async function (next) {
 });
 
 UserSchema.decryptToken = function decryptToken(token) {
-    return jwt.verify(token, 'MyVerySecretKey').data;
+    return jwt.verify(token, 'MyVerySecretKey');
 }; 
 
 export default mongoose.model('User', UserSchema); // export model for use
