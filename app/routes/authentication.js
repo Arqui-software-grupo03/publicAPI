@@ -1,6 +1,7 @@
 import Router from 'koa-router';
 import UsersControllers from '../controllers/users';
 import authenticate from '../middlewares/authenticate';
+const bcrypt = require('bcrypt');
 
 
 const router = new Router();

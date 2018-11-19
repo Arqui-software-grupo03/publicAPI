@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/users.js'
 import Id from '../models/ids'
+const bcrypt = require('bcrypt');
 
 // import mongoose from 'mongoose';
 
@@ -11,7 +12,7 @@ import Id from '../models/ids'
 
 class UsersControllers {
     /* eslint-enable no-param-reassign */
-    
+
 
     async all(ctx) {
         // mongoose.connection.db.dropCollection('users', function (err, result) {console.log(err, result)});
@@ -28,10 +29,16 @@ class UsersControllers {
 
     async create(ctx) {
         try {
+            // console.log('enter create');
+            // console.log(ctx.request.body);
+            let hash = bcrypt.hashSync(ctx.request.body.password, 10);
+            ctx.request.body.password = hash;
+            // console.log(ctx.request.body.password);
             const user = new User(ctx.request.body);
             await user.save();
             ctx.body = await User.findOne({ id: user.id });
-            // const ans = await axios.post(`${dir}`, ctx.request.body);
+            // console.log(ctx.body);
+            // console.log('exit create');
         } catch (e) {
             ctx.body = e;
         }
@@ -115,7 +122,7 @@ class UsersControllers {
             // const user = await User.find({ id: ctx.body.id });
             await User.updateOne(
                 { id: ctx.params.id },
-                { $push: { followers: ctx.session.userId } } 
+                { $push: { followers: ctx.session.userId } }
             );
             ctx.body = { message: 'success' };
         } catch (e) {
@@ -127,7 +134,7 @@ class UsersControllers {
         try {
             // const user = await User.find({ id: ctx.body.id });
             await User.updateOne(
-                { id: ctx.params.id }, 
+                { id: ctx.params.id },
                 { $pullAll: { followers: [ ctx.session.userId ] } }
             );
             ctx.body = { message: 'success' };

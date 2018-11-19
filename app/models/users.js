@@ -17,15 +17,15 @@ export const UserSchema = new Schema(
         email: {
             type: String,
             lowercase: true,
-            required: [ true, "can't be blank" ], 
-            match: [ /\S+@\S+\.\S+/, 'is invalid' ], 
+            required: [ true, "can't be blank" ],
+            match: [ /\S+@\S+\.\S+/, 'is invalid' ],
             index: true
         },
-        username: { 
-            type: String, 
-            lowercase: true, 
-            required: [ true, "can't be blank" ], 
-            match: [ /^[a-zA-Z0-9]+$/, 'is invalid' ], 
+        username: {
+            type: String,
+            lowercase: true,
+            required: [ true, "can't be blank" ],
+            match: [ /^[a-zA-Z0-9]+$/, 'is invalid' ],
             index: true ,
             unique: true
         },
@@ -35,8 +35,8 @@ export const UserSchema = new Schema(
             bcrypt: true,
             select: false
         },
-        followers: { 
-            type: [] 
+        followers: {
+            type: []
         }
     },
     { collection: 'users' },
@@ -50,9 +50,9 @@ UserSchema.pre('save', async function (next) {
         const userId = idObject.userId;
         this.id = userId;
         await Id.updateOne({ userId }, { $set: { userId: userId + 1 }} );
-    } 
+    }
     next();
-    
+
 });
 
 export default mongoose.model('User', UserSchema); // export model for use

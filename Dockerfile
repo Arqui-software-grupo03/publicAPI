@@ -10,6 +10,8 @@ ADD package.json /src/package.json
 
 RUN npm install
 
+RUN npm install bcrypt --save
+
 ADD nodemon.json /src/nodemon.json
 
 # ADD run.sh /src/run.sh
