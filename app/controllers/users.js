@@ -46,7 +46,7 @@ class UsersControllers {
 
     async update(ctx) {
         try {
-            const allowed = ['username', 'email', 'password'];
+            const allowed = ['username', 'email', 'password', 'imageUrl'];
             const body = {};
 
             allowed.forEach(key => {

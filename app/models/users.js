@@ -37,6 +37,10 @@ export const UserSchema = new Schema(
         },
         followers: {
             type: []
+        },
+        imageUrl: {
+            type: String,
+            default: ''
         }
     },
     { collection: 'users' },
