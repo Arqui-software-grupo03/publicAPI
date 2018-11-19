@@ -67,10 +67,9 @@ class TopicsControllers {
     async subscribe(ctx) {
         try {
             const ans = await axios.post(`${dir}/${ctx.params.id}/subscribers/`, ctx.request.body);
-            console.log(ans.data);
             ctx.body = ans.data;
         } catch(err) {
-            console.log(err);
+            // console.log(err);
         }
     }
 
@@ -79,6 +78,14 @@ class TopicsControllers {
         ctx.body = ans.data;
     }
 
+    async subscribers(ctx) {
+        try {
+            const subscribersArray = await axios.get(`${dir}/${ctx.params.id}/subscribers`);
+            ctx.body = subscribersArray.data;
+        } catch(err) {
+            console.log(err);
+        }
+    }
 
 
     /* eslint-enable no-param-reassign */

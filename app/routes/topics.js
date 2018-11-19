@@ -23,6 +23,9 @@ router.delete('/:id', TopicsControllers.delete);
 // list all topics
 router.get('/', TopicsControllers.all);
 
+// get all subscribers from topic
+router.get('/:id/subscribers', TopicsControllers.subscribers);
+
 // subscribe to topic
 router.post('/:id/subscribers', TopicsControllers.subscribe);
 
