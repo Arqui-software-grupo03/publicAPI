@@ -6,4 +6,9 @@ admin.initializeApp({
   databaseURL: 'https://arquitran-iic2173-2018-2.firebaseio.com'
 });
 
-export default admin;
+const updateRealTimeDatabase = (path, userEmail) => {
+  const topicChildRef = admin.database().ref(path);
+  topicChildRef.push({ followers: [userEmail] });
+}
+
+export { admin, updateRealTimeDatabase };

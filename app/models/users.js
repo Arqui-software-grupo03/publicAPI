@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import jwt from 'jsonwebtoken';
 
 // var mongoose = require('mongoose'),
 import Id from '../models/ids.js'
@@ -58,5 +59,9 @@ UserSchema.pre('save', async function (next) {
     next();
     
 });
+
+UserSchema.decryptToken = function decryptToken(token) {
+    return jwt.verify(token, 'MyVerySecretKey').data;
+}; 
 
 export default mongoose.model('User', UserSchema); // export model for use
