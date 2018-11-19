@@ -28,50 +28,29 @@ export default async function(ctx, next) {
     return ctx;
   }
 
-  bcrypt.compare(ctx.request.body.password, user.password, function(err, res) {
-    if(res) {
-      console.log('MATCH');
-      // Passwords match
-      const token = jwt.sign({
-        id: user.id,
-      }, 'MyVerySecretKey', { expiresIn: 60 * 15 }); // in seconds
+  if(bcrypt.compareSync(ctx.request.body.password, user.password)) {
+   // Passwords match
+   console.log('MATCH');
 
-      // User.update({ email: ctx.request.body.email }, { $set: token });
-      console.log('ehwgvyfbuehiwfruhJAJAJAAJJAAJAJAJ');
-      ctx.body = {
-        token,
-        user: omit(user._doc, 'password'),
-      }
-      console.log(ctx);
-      return ctx;
-    } else {
-      // Passwords don't match
-      ctx.status = 401;
-      ctx.body = {
-        message: 'Authentication Failed'
-      };
-      return ctx;
-    }
-  });
+   const token = jwt.sign({
+     id: user.id,
+   }, 'MyVerySecretKey', { expiresIn: 60 * 15 }); // in seconds
+   // console.log(token);
 
-  // if (ctx.request.body.password === user.password) {
-  //   // ctx.session.userId = user.id;
-  //   const token = jwt.sign({
-  //     id: user.id,
-  //   }, 'MyVerySecretKey', { expiresIn: 60 * 15 }); // in seconds
-  //
-  //   // User.update({ email: ctx.request.body.email }, { $set: token });
-  //
-  //   ctx.body = {
-  //     token,
-  //     user: omit(user._doc, 'password'),
-  //   }
-  //   return ctx;
-  // }
+   // User.update({ email: ctx.request.body.email }, { $set: token });
 
-  // ctx.status = 401;
-  // ctx.body = {
-  //   message: 'Authentication Failed'
-  // };
-  // return ctx;
+   ctx.body = {
+     token,
+     user: omit(user._doc, 'password'),
+   }
+
+   return ctx;
+  } else {
+   // Passwords don't match
+   ctx.status = 401;
+   ctx.body = {
+     message: 'Authentication Failed'
+   };
+   return ctx;
+  }
 }
