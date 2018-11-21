@@ -1,6 +1,7 @@
 import axios from 'axios';
-
-const dir = 'http://posts:8100/posts';
+import { dirPosts as dir } from '../config';
+// const dir = 'http://posts:8100/posts';
+// const dir = 'http://172.28.0.3:8100/posts';
 
 class PostsControllers {
 
@@ -17,8 +18,12 @@ class PostsControllers {
 
 
     async add(ctx) {
-        const ans = await axios.post(`${dir}/`, ctx.request.body);
-        ctx.body = ans.data;
+        try {
+            const ans = await axios.post(`${dir}/`, ctx.request.body);
+            ctx.body = ans.data;
+        } catch(err) {
+            console.log('Error adding post')
+        }
     }
 
 

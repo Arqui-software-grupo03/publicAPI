@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { updateRealTimeDatabase } from '../utils/firebase-cloud-messaging';
-import users, { UserSchema } from '../models/users';
+import { updateTopicSubscribers } from '../utils/firebase-cloud-messaging';
+import { dirTopics as dir } from '../config';
 
 // const dir = 'http://topics:8080/topics';
-const dir = 'http://172.28.0.2:8080/topics';
+// const dir = 'http://172.28.0.4:8080/topics';
 
 class TopicsControllers {
     /* eslint-disable no-param-reassign */
@@ -13,15 +13,8 @@ class TopicsControllers {
             dict =>  dict.title === ctx.request.body.title && dict.description === ctx.request.body.description
         ).length > 0);
         if (!ifTopicExists) {
-            const userId = UserSchema.decryptToken(ctx.request.header.authorization.replace(/^Bearer\s/, '')).id;
-            const userEmail = await users.findOne({id: userId}).then(user => user.email);
             try {
                 const ans = await axios.post(`${dir}/`, ctx.request.body);
-                try {
-                    updateRealTimeDatabase(`/topics/${ans.data.topic_id}`, userEmail);
-                } catch (err) {
-                    console.log(err);
-                }
                 ctx.body = ans.data;
             } catch(err) {
                 ctx.request.response.status = 400;
@@ -52,6 +45,7 @@ class TopicsControllers {
     async categorize(ctx) {
         const ans = await axios.post(`${dir}/${ctx.params.id}/posts/`, ctx.request.body);
         ctx.body = ans.data;
+        updateTopicSubscribers(ctx.request.body);
     }
 
     async deleteCategorization(ctx) { // tampoco. probklema de la apitopics?
@@ -67,7 +61,7 @@ class TopicsControllers {
     async subscribe(ctx) {
         try {
             const ans = await axios.post(`${dir}/${ctx.params.id}/subscribers/`, ctx.request.body);
-            ctx.body = ans.data;
+            ctx.body = ans.data;            
         } catch(err) {
             // console.log(err);
         }

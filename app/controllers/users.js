@@ -82,6 +82,8 @@ class UsersControllers {
                 const userId = decoded.id;
                 const user = await User.findOne({id: userId});
                 ctx.body = user;
+                console.log('====');
+                console.log(user);
               } catch(err) {
                 // err
                 console.log(err);
