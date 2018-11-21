@@ -1,4 +1,5 @@
 import User from '../models/users';
+import { dirTopics, dirPosts } from '../config';
 
 const admin = require('firebase-admin');
 const serviceAccount = require('../serviceAccountKey.json');
@@ -89,11 +90,6 @@ const getUserTokenUpdates = () => {
   });
 }
 
-const updateUsers = (userIdArray) => {
-  // await admin.database().ref('/fcmTokens')
-
-}
-
 const sendMessage = async (recipient, message) => {
   const url = 'https://fcm.googleapis.com/fcm/send';
   const body = {
@@ -112,14 +108,47 @@ const sendMessage = async (recipient, message) => {
   }
   try {
     await axios.post(url, body, headers);
+    // console.log('Sent!');
   } catch(err) {
+    console.log(err);
     // console.log(err);
   }
 }
+
+const updateUsers = (userTokensArray, message) => {
+  userTokensArray.map(
+    (token) => {
+      sendMessage(token, message);
+    }
+  );
+}
+
 
 const subscribeUser = async () => {
 
 }
 
+const updateTopicSubscribers = async (request) => {
+  const subscribersArray = await axios.get(`${dirTopics}/${request.topic_identifier}/subscribers`);
+  const users = [];
+  const topic = await axios.get(`${dirTopics}/${request.topic_identifier}/`);
+  const post = await axios.get(`${dirPosts}/${request.post_id}/`);
+  const message = {
+    'title': `Nuevo post en topic: ${topic.data.title}`,
+    'body': post.data.content
+  };
+  // console.log(message);
+  subscribersArray.data.map(async (obj) => {
+    users.push(User.findOne({id: obj.user_id}).then(
+      user => {
+        if (user.fcmTokens.length > 0) {
+          sendMessage(user.fcmTokens[0], message);
+        }
+      }
+    ));
+  });
+  await Promise.all(users);
+}
 
-export { admin, sendMessage, getUserTokenUpdates };
+
+export { admin, sendMessage, getUserTokenUpdates, updateUsers, updateTopicSubscribers };
