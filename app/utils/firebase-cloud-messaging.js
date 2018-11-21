@@ -108,7 +108,7 @@ const sendMessage = async (recipient, message) => {
   }
   try {
     await axios.post(url, body, headers);
-    // console.log('Sent!');
+    console.log('Sent!');
   } catch(err) {
     console.log(err);
     // console.log(err);
@@ -142,7 +142,7 @@ const updateTopicSubscribers = async (request) => {
     users.push(User.findOne({id: obj.user_id}).then(
       user => {
         if (user.fcmTokens.length > 0) {
-          sendMessage(user.fcmTokens[0], message);
+          sendMessage(user.fcmTokens[user.fcmTokens.length - 1], message);
         }
       }
     ));
