@@ -9,6 +9,11 @@ WORKDIR /src
 ADD package.json /src/package.json
 
 RUN npm install
+RUN npm install bcrypt --save
+
+#ubuntu fix:
+#RUN npm install -g node-gyp node-pre-gyp
+#RUN npm install bcrypt@3.0.1
 
 ADD nodemon.json /src/nodemon.json
 
