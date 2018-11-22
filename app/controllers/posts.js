@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { dirPosts as dir } from '../config';
+// import { dirPosts as dir } from '../config';
 // const dir = 'http://posts:8100/posts';
-// const dir = 'http://172.28.0.3:8100/posts';
+const dir = 'http://172.28.0.3:8100/posts';
 
 class PostsControllers {
 
@@ -56,6 +56,15 @@ class PostsControllers {
     async deleteAnswer(ctx) {
         const ans = await axios.delete(`${dir}/${ctx.params.id}/answers/${ctx.params.answerId}/`);
         ctx.body = ans.data;
+    }
+
+    async getUserPosts(ctx) {
+        try {
+            const posts = await axios.get(`${dir}/user/${ctx.params.id}/`);
+            ctx.body = posts.data;
+        } catch(err) {
+            // console.log(err);
+        }
     }
 
     /* eslint-enable no-param-reassign */

@@ -37,6 +37,8 @@ router.patch('/:id/answers/:answerId', PostsControllers.updateAnswer);
 // delete answer
 router.delete('/:id/answers/:answerId', PostsControllers.deleteAnswer);
 
+// get user posts
+router.get('/user/:id', PostsControllers.getUserPosts);
 
 
 export default router;
