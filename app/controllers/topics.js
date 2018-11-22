@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { updateTopicSubscribers } from '../utils/firebase-cloud-messaging';
-import { dirTopics as dir } from '../config';
+// import { dirTopics as dir } from '../config';
 
-// const dir = 'http://topics:8080/topics';
+const dir = 'http://topics:8080/topics';
 // const dir = 'http://172.28.0.4:8080/topics';
 
 class TopicsControllers {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import { dirPosts as dir } from '../config';
-// const dir = 'http://posts:8100/posts';
-const dir = 'http://172.28.0.3:8100/posts';
+const dir = 'http://posts:8100/posts';
+// const dir = 'http://172.28.0.3:8100/posts';
 
 class PostsControllers {
 
