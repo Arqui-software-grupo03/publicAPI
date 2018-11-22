@@ -63,13 +63,33 @@ class TopicsControllers {
             const ans = await axios.post(`${dir}/${ctx.params.id}/subscribers/`, ctx.request.body);
             ctx.body = ans.data;            
         } catch(err) {
-            // console.log(err);
+            ctx.request.response.status = 400;
+            ctx.request.response.message = 'Bad Request';
         }
     }
 
     async unsubscribe(ctx) {
-        const ans = await axios.delete(`${dir}/${ctx.params.id}/subscribers/${ctx.params.userId}/`);
-        ctx.body = ans.data;
+        let response;
+        try {
+            response = await axios.get(`${dir}/${ctx.params.id}/subscribers`);
+        } catch(err) {
+            // console.log(err);
+        } finally {
+            if (response) {
+                const newSubscribers = response.data.filter(user => user.user_id !== +ctx.params.userId);
+                try {
+                    // await axios.patch(`${dir}/${ctx.params.id}/subscribers/`, {'subscribers': newSubscribers});
+                    ctx.body = newSubscribers;
+                } catch(err) {
+                    // console.log(err)
+                }
+
+            }
+        }
+        // } catch(err) {
+        // const ans = await axios.delete(`${dir}/${ctx.params.id}/subscribers/${ctx.params.userId}/`);
+        // ctx.body = ans.data;
+        // }
     }
 
     async subscribers(ctx) {
