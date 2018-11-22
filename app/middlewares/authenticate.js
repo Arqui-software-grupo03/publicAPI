@@ -17,7 +17,6 @@ function omit(obj, omitKey) {
 
 export default async function(ctx, next) {
   const user = await User.findOne({ email: ctx.request.body.email }).select('password');
-  console.log(user);
   // const password = userObject.password;
 
   if (user == null) {
@@ -30,10 +29,9 @@ export default async function(ctx, next) {
 
   if(bcrypt.compareSync(ctx.request.body.password, user.password)) {
    // Passwords match
-   console.log('MATCH');
-
+    const returnUser = await User.findOne({ email: ctx.request.body.email });
    const token = jwt.sign({
-     id: user.id,
+     id: returnUser.id
    }, 'MyVerySecretKey', { expiresIn: 60 * 15 }); // in seconds
    // console.log(token);
 
@@ -41,9 +39,9 @@ export default async function(ctx, next) {
 
    ctx.body = {
      token,
-     user: omit(user._doc, 'password'),
+     user: omit(returnUser._doc, 'password')
    }
-
+   console.log(ctx.body);
    return ctx;
   } else {
    // Passwords don't match
