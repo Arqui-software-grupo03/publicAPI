@@ -74,7 +74,7 @@ class UsersControllers {
     async delete(ctx) {
         try {
             await User.remove({ id: ctx.params.id });
-            ctx.body = { message: 'success' };
+            ctx.status = 204;
         } catch (e) {
             ctx.body = e;
         }
@@ -136,6 +136,7 @@ class UsersControllers {
                 { $push: { followers: userId } }
             );
             ctx.body = { message: 'success' };
+            ctx.status = 201;
         } catch (e) {
             ctx.body = e;
         }
@@ -151,7 +152,7 @@ class UsersControllers {
                 { id: ctx.params.id },
                 { $pullAll: { followers: [ userId ] } }
             );
-            ctx.body = { message: 'success' };
+            ctx.status = 204;
         } catch (e) {
             ctx.body = e;
         }
