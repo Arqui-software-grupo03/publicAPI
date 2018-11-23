@@ -29,10 +29,10 @@ router.delete('/users/:id', UsersControllers.delete);
 
 
 // // list all followers
-// router.get('/:id/followers', UsersControllers.followers);
+router.get('/users/:id/followers', UsersControllers.followers);
 
 // // list all followed
-// router.get('/:id/followed', UsersControllers.followed);
+router.get('/users/:id/followed', UsersControllers.followed);
 
 // follow user
 router.post('/users/:id/followers', UsersControllers.follow);
