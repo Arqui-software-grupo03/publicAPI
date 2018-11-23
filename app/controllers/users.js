@@ -74,7 +74,7 @@ class UsersControllers {
     async delete(ctx) {
         try {
             await User.remove({ id: ctx.params.id });
-            ctx.body = { message: 'success' };
+            ctx.status = 204;
         } catch (e) {
             ctx.body = e;
         }
@@ -106,37 +106,53 @@ class UsersControllers {
         }
     }
 
-    // async followers(ctx) {
-    //     const ans = await axios.get(`${dir}/${ctx.params.email}/followers`);
-    //     ctx.body = ans;
-    // }
+    async followers(ctx) {
+        try {
+            const user = await User.findOne({ id: ctx.params.id });
+            const followers = await User.find({ id: {$in: user.followers}});
+            ctx.body = followers;
+        } catch (e) {
+            ctx.body = e;
+        }
+    }
 
-    // async followed(ctx) {
-    //     const ans = await axios.get(`${dir}/${ctx.params.email}/followed`);
-    //     ctx.body = ans;
-    // }
+    async followed(ctx) {
+        try {
+            const followed = await User.find({ followers: parseInt(ctx.params.id) });
+            ctx.body = followed;
+        } catch (e) {
+            ctx.body = e;
+        }
+    }
 
     async follow(ctx) {
+        const token = ctx.request.header.authorization.replace(/^Bearer\s/, '');;
         try {
             // const user = await User.find({ id: ctx.body.id });
+            const decoded = jwt.verify(token, 'MyVerySecretKey');
+            const userId = decoded.id;
             await User.updateOne(
                 { id: ctx.params.id },
-                { $push: { followers: ctx.session.userId } }
+                { $push: { followers: userId } }
             );
             ctx.body = { message: 'success' };
+            ctx.status = 201;
         } catch (e) {
             ctx.body = e;
         }
     }
 
     async unfollow(ctx) {
+        const token = ctx.request.header.authorization.replace(/^Bearer\s/, '');;
         try {
             // const user = await User.find({ id: ctx.body.id });
+            const decoded = jwt.verify(token, 'MyVerySecretKey');
+            const userId = decoded.id;
             await User.updateOne(
                 { id: ctx.params.id },
-                { $pullAll: { followers: [ ctx.session.userId ] } }
+                { $pullAll: { followers: [ userId ] } }
             );
-            ctx.body = { message: 'success' };
+            ctx.status = 204;
         } catch (e) {
             ctx.body = e;
         }
