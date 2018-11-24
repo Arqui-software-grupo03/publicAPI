@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { updateTopicSubscribers } from '../utils/firebase-cloud-messaging';
-// import { dirTopics as dir } from '../config';
+import { dirTopics as dir } from '../config';
 
-const dir = 'http://topics:8080/topics';
+// const dir = 'http://topics:8080/topics';
 // const dir = 'http://172.28.0.4:8080/topics';
 
 class TopicsControllers {
@@ -71,19 +71,23 @@ class TopicsControllers {
     async unsubscribe(ctx) {
         let response;
         try {
-            response = await axios.get(`${dir}/${ctx.params.id}/subscribers`);
+            response = await axios.get(`${dir}/${ctx.params.id}/subscribers/`);
         } catch(err) {
-            // console.log(err);
+            console.log(err);
         } finally {
             if (response) {
-                const newSubscribers = response.data.filter(user => user.user_id !== +ctx.params.userId);
-                try {
-                    // await axios.patch(`${dir}/${ctx.params.id}/subscribers/`, {'subscribers': newSubscribers});
-                    ctx.body = newSubscribers;
-                } catch(err) {
-                    // console.log(err)
+                const subscriberData = response.data.filter(user => user.user_id === +ctx.params.userId);
+                if (subscriberData.length > 0) {
+                    try {
+                        await axios.delete(`${dir}/${ctx.params.id}/subscribers/${subscriberData[0].id}/`);
+                        ctx.request.response.status = 200;
+                    } catch(err) {
+                        console.log(err)
+                    }
+                } else {
+                    ctx.request.response = 404;
+                    ctx.request.response = 'User not found';
                 }
-
             }
         }
         // } catch(err) {
