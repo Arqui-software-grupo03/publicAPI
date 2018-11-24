@@ -32,7 +32,7 @@ export default async function(ctx, next) {
     const returnUser = await User.findOne({ email: ctx.request.body.email });
    const token = jwt.sign({
      id: returnUser.id
-   }, 'MyVerySecretKey', { expiresIn: 60 * 15 }); // in seconds
+   }, 'MyVerySecretKey', { expiresIn: 60 * 15 *10 }); // in seconds (added 10 for development)
    // console.log(token);
 
    // User.update({ email: ctx.request.body.email }, { $set: token });
